@@ -3,7 +3,12 @@
 import { newTopicSchema } from "./schemas";
 import { createClient } from "./supabase/server";
 import { redirect } from 'next/navigation';
+import OpenAI from 'openai'
 
+const openAIApiKey = process.env.OPEN_AI_KEY
+const openai = new OpenAI({
+  apiKey: openAIApiKey
+})
 
 // await new Promise(resolve => setTimeout(resolve, 6000))
 

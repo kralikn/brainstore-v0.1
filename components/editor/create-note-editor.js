@@ -71,7 +71,7 @@ export default function CreateNoteEditor({ topicSlug }) {
             <ToolbarPlugin />
           </div>
           <RichTextPlugin
-            contentEditable={<ContentEditable className='w-full h-[calc(100vh-30rem)] max-h-[calc(100vh-23.75rem)] overflow-y-auto border rounded-md p-4' />}
+            contentEditable={<ContentEditable className='w-full min-h-[calc(100vh-25rem)] max-h-[calc(100vh-23.75rem)] overflow-y-auto border rounded-md p-4' />}
             ErrorBoundary={LexicalErrorBoundary}
           />
           <HistoryPlugin />

@@ -4,7 +4,7 @@ export default function LoadingPageHeader() {
   return (
     <div className="flex flex-col gap-4">
       <div className="h-20">
-        <Skeleton className="h-full w-full rounded-md bg-gray-200" />
+        <Skeleton className="h-full w-full rounded-md bg-slate-100" />
       </div>
     </div>
   )

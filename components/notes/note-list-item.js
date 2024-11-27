@@ -54,7 +54,7 @@ export default function NotesListItem({ note, topicSlug, }) {
     <div className="flex justify-between items-center gap-4">
       <div className="flex gap-3 items-center">
         <StickyNote size={18} />
-        <div className="text-base">{note.title}</div>
+        <div className="text-sm">{note.title}</div>
       </div>
       <div className="space-x-2">
         <Button size='sm' variant="" onClick={handleCreateNoteEmbedding} disabled={deleteIsPending || createEmbeddingIsPending || note.embedded}>
