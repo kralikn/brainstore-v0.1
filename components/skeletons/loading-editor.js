@@ -10,7 +10,7 @@ export default function LoadingEditor() {
       <div className='h-12 w-full'>
         <Skeleton className="h-full w-full rounded-md bg-slate-100" />
       </div>
-      <div className='h-96 w-full mb-2'>
+      <div className='h-40 w-full mb-2'>
         <Skeleton className="h-full w-full rounded-md bg-slate-100" />
       </div>
       <div className='h-12 w-1/6'>
