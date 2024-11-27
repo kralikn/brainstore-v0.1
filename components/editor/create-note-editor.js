@@ -45,7 +45,7 @@ export default function CreateNoteEditor({ topicSlug }) {
   const [editorState, setEditorState] = useState()
   const [htmlState, setHtmlState] = useState()
 
-  const onChange = (editorState, editor) => {
+  const onChange = ({ editorState, editor }) => {
     const editorStateJSON = editorState.toJSON();
     setEditorState(JSON.stringify(editorStateJSON));
     editorState.read(() => {

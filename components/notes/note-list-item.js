@@ -58,7 +58,7 @@ export default function NotesListItem({ note, topicSlug, }) {
       </div>
       <div className="space-x-2">
         <Button size='sm' variant="" onClick={handleCreateNoteEmbedding} disabled={deleteIsPending || createEmbeddingIsPending || note.embedded}>
-          {false ? <Loader2 className="animate-spin" /> : <FileStack />}
+          {createEmbeddingIsPending ? <Loader2 className="animate-spin" /> : <FileStack />}
         </Button>
         <Button asChild size="sm" variant="">
           <Link href={`/dashboard/admin/${topicSlug}/notes/${note.id}`}>

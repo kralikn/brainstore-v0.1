@@ -213,6 +213,30 @@ export async function getNotes(topicSlug) {
     return null
   }
 }
+export async function getNote(data) {
+
+  const { topicSlug, noteSlug } = data
+
+  try {
+    const supabase = await createClient()
+
+    const { data, error } = await supabase
+      .from('notes')
+      .select()
+      .eq('id', noteSlug)
+
+    if (error) {
+      console.log(error)
+      return { error: `code: ${error.code} / message: ${error.message}` }
+    }
+
+    return { note: data[0] }
+
+  } catch (error) {
+    console.error(error)
+    return { error: 'Valami hiba történt...' }
+  }
+}
 export async function createNote({ editorJSON, noteTitle, topicSlug, htmlState }) {
 
   let noteContent = ''
@@ -294,7 +318,6 @@ export async function deleteNote(noteId) {
     return { error: 'Valami hiba történt...' }
   }
 }
-
 export async function createNoteEmbeddings({ noteId, topicSlug }) {
 
   try {
@@ -353,6 +376,62 @@ export async function createNoteEmbeddings({ noteId, topicSlug }) {
   } catch (error) {
     console.error(error)
     return { error: 'Valami hiba történt...' }
-
   }
+}
+export async function updateNote({ editorJSON, noteTitle, noteSlug, htmlState, topicSlug }) {
+
+  let noteContent = ''
+  const title = noteTitle
+  const noteJSON = editorJSON
+  const rows = JSON.parse(noteJSON).root.children
+  rows.map(rowObject => {
+    if (rowObject.children.length !== 0) {
+      // const text = rowObject.children[0].text
+      rowObject.children.map(row => {
+        noteContent = noteContent + '\n' + row.text
+
+      })
+    } else {
+      noteContent = noteContent + '\n'
+    }
+  })
+
+  try {
+
+    const supabase = await createClient()
+    const { error: updateNoteError } = await supabase
+      .from('notes')
+      .update({ content: noteContent, editor_json: noteJSON, editor_html: htmlState, title })
+      .eq('id', noteSlug)
+
+    if (updateNoteError) {
+      console.log(updateNoteError)
+      return { error: `code: ${updateNoteError.code} / message: ${updateNoteError.message}` }
+    }
+
+    const noteText = title + '\n' + noteContent
+
+    const embedding = await openai.embeddings.create({
+      model: "text-embedding-3-small",
+      input: noteText,
+      encoding_format: "float",
+    })
+
+    const { error: updateDocumentSectionsError } = await supabase
+      .from('document_sections')
+      .update({ content: noteText, embedding: embedding.data[0].embedding })
+      .eq('note_id', noteSlug)
+
+    if (updateDocumentSectionsError) {
+      console.log(updateDocumentSectionsError)
+      return { error: `code: ${updateDocumentSectionsError.code} / message: ${updateDocumentSectionsError.message}` }
+    }
+
+    return { message: "A jegyzet frissítve!" }
+
+  } catch (error) {
+    console.error(error)
+    return { error: 'Valami hiba történt...' }
+  }
+
 }
