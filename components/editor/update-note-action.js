@@ -6,12 +6,14 @@ import { Button } from "../ui/button";
 import { CloudUpload, Loader2 } from "lucide-react";
 import { noteTitleSchema } from "@/utils/schemas";
 import { updateNote } from "@/utils/actions";
+import { useRouter } from "next/navigation";
 
 export default function UpdateNoteAction({ noteTitle, topicSlug, noteSlug, setErrors, htmlState }) {
 
   const [editor] = useLexicalComposerContext()
   const queryClient = useQueryClient()
   const { toast } = useToast()
+  const router = useRouter()
 
   const { mutate, isPending } = useMutation({
     mutationFn: (values) => updateNote(values),
@@ -28,6 +30,7 @@ export default function UpdateNoteAction({ noteTitle, topicSlug, noteSlug, setEr
       editor.update(() => {
         editor.dispatchCommand(CLEAR_HISTORY_COMMAND, undefined);
       });
+      router.back()
     },
   })
 
