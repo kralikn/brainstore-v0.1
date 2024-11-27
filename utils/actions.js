@@ -4,6 +4,7 @@ import { newTopicSchema } from "./schemas";
 import { createClient } from "./supabase/server";
 import { redirect } from 'next/navigation';
 
+
 // await new Promise(resolve => setTimeout(resolve, 6000))
 
 export async function socialAuth() {
