@@ -7,6 +7,7 @@ import { Separator } from "../ui/separator"
 import NotesListItem from "./note-list-item"
 import { getNotes } from "@/utils/actions"
 import LoadingList from "../skeletons/loading-list"
+import LoadingDocList from "../skeletons/loading-doc-list"
 
 
 export default function NotesList({ topicSlug }) {
@@ -19,7 +20,7 @@ export default function NotesList({ topicSlug }) {
   const notes = data?.notes || []
   const error = data?.error || ''
 
-  if (isLoading || isPending) return <LoadingList />
+  if (isLoading || isPending) return <LoadingDocList />
   if (error) {
     return <Badge variant="destructive" className="text-md w-1/2 mx-auto px-8 py-4">{error}</Badge>
   }
