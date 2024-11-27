@@ -28,7 +28,7 @@ export default async function UpdateNotePage({ params }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <Suspense fallback={<LoadingPageHeader />}>
+      <Suspense fallback={<LoadingPageHeader height='h-28' />}>
         <HydrationBoundary state={dehydrate(queryClient)}>
           <PageHeader topicSlug={topicSlug} url={`/dashboard/admin/${topicSlug}/notes`} subTitle="Jegyzet szerkesztése" />
         </HydrationBoundary>

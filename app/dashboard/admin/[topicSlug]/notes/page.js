@@ -33,7 +33,7 @@ export default async function NotesPage({ params }) {
 
   return (
     <div className="flex flex-col gap-4">
-      <Suspense fallback={<LoadingPageHeader />}>
+      <Suspense fallback={<LoadingPageHeader height='h-28' />}>
         <HydrationBoundary state={dehydrate(queryClient)}>
           <PageHeader topicSlug={topicSlug} url={`/dashboard/admin`} subTitle="Jegyzetek hozzáadása" />
         </HydrationBoundary>

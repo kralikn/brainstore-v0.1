@@ -1,25 +1,25 @@
 'use client'
 
 import Link from "next/link";
-import { Button } from "./ui/button";
-import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { ChevronLeft } from "lucide-react";
-import { getNotes } from "@/utils/actions";
-import { Badge } from "./ui/badge";
 import { useQuery } from "@tanstack/react-query";
 import LoadingPageHeader from "./skeletons/loading-page-header";
+import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import { Badge } from "./ui/badge";
+import { Button } from "./ui/button";
+import { getTopic } from "@/utils/actions";
 
-export default function PageHeader({ topicSlug, url, subTitle }) {
+export default function ChatPageHeader({ topicId, url, subTitle }) {
 
-  const { data, isFetching, isPending } = useQuery({
-    queryKey: ['notes', topicSlug],
-    queryFn: () => getNotes(topicSlug),
+  const { data, isPending } = useQuery({
+    queryKey: ['chat', 'title', topicId],
+    queryFn: () => getTopic(topicId),
   })
 
-  const topicTitle = data?.topicTitle || ""
+  const topicTitle = data?.topic?.title || ''
   const error = data?.error || ''
 
-  if (isPending) return <LoadingPageHeader />
+  if (isPending) return <LoadingPageHeader height='h-28' />
   if (error) {
     return <Badge variant="destructive" className="text-md w-1/2 mx-auto px-8 py-4">{error}</Badge>
   }
@@ -35,7 +35,7 @@ export default function PageHeader({ topicSlug, url, subTitle }) {
               size='sm'
               className="p-0"
             >
-              <Link href={url} className='flex items-center gap-x-2'>
+              <Link href={'/dashboard/admin'} className='flex items-center gap-x-2'>
                 <ChevronLeft size={32} /> Vissza
               </Link>
             </Button>

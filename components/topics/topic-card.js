@@ -57,7 +57,7 @@ export default function TopicCard({ topic }) {
           {(topic.has_doc_embedded || topic.has_note_embedded) &&
             <Button asChild size="sm" variant="outline">
               <Link href={`/dashboard/admin/chat/${topic.id}`}>
-                <MessageSquareMore />
+                <MessageSquareMore /> Chat
               </Link>
             </Button>
           }

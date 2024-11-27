@@ -16,7 +16,6 @@ export default function LoadingEditor() {
       <div className='h-12 w-1/6'>
         <Skeleton className="h-full w-full rounded-md bg-slate-100" />
       </div>
-
     </div>
   )
 }

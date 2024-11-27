@@ -25,7 +25,7 @@ export default function NotesList({ topicSlug }) {
   }
 
   return (
-    <Card className='w-full h-full p-4'>
+    <Card className='w-full h-full p-4 space-y-6'>
       <CardHeader className="p-0">
         <CardTitle className="text-xl">Jegyzetek</CardTitle>
       </CardHeader>

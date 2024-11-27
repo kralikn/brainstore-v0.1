@@ -11,3 +11,20 @@ export const noteTitleSchema = z.object({
     message: "Legalább 6 karakter!"
   }),
 })
+
+export const fileSchema = z.object({
+  file: validateFile()
+})
+
+function validateFile() {
+  const acceptedFileTypes = ['application/pdf']
+  return z.instanceof(File).refine((file) => {
+    return !file || acceptedFileTypes.some((type) => file.type.startsWith(type))
+  }, 'Csak pdf tölthető fel!')
+}
+
+export const questionSchema = z.object({
+  chat_message: z.string().min(2, {
+    message: "Legalább 2 karakter!"
+  }),
+})
