@@ -7,6 +7,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast';
 import { noteTitleSchema } from '@/utils/schemas';
 import { createNote } from '@/utils/actions';
+import LoadingNoteList from '../skeletons/loading-note-list';
 
 export default function CreateNoteActions({ noteTitle, topicSlug, setNoteTitle, setErrors, htmlState }) {
 
@@ -14,7 +15,7 @@ export default function CreateNoteActions({ noteTitle, topicSlug, setNoteTitle, 
   const queryClient = useQueryClient()
   const { toast } = useToast()
 
-  const { mutate, isPending } = useMutation({
+  const { mutate, isPending, isLoading } = useMutation({
     mutationFn: (values) => createNote(values),
     onSuccess: (data) => {
       if (data?.error) {

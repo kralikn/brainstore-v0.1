@@ -1,4 +1,4 @@
-import { FolderPlus } from 'lucide-react';
+import { FolderPlus, Workflow } from 'lucide-react';
 
 const links = [
   {
@@ -6,6 +6,11 @@ const links = [
     label: 'témakörök',
     icon: <FolderPlus />,
   }
+  // {
+  //   href: '/dashboard/chat/alteryx',
+  //   label: 'alteryx',
+  //   icon: <Workflow />,
+  // }
 ];
 
 export default links;

@@ -9,7 +9,7 @@ import {
 import CreateNoteEditor from "@/components/editor/create-note-editor";
 import NotesList from "@/components/notes/note-list";
 import { getNotes } from "@/utils/actions";
-import LoadingDocList from "@/components/skeletons/loading-doc-list";
+import LoadingNoteList from "@/components/skeletons/loading-note-list";
 
 const queryClient = new QueryClient()
 
@@ -40,7 +40,7 @@ export default async function NotesPage({ params }) {
       </Suspense>
       <div className="grid grid-cols-12 gap-4">
         <CreateNoteEditor topicSlug={topicSlug} />
-        <Suspense fallback={< LoadingDocList />}>
+        <Suspense fallback={< LoadingNoteList />}>
           <HydrationBoundary state={dehydrate(queryClient)}>
             <Notes topicSlug={topicSlug} />
           </HydrationBoundary>
