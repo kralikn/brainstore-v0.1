@@ -792,94 +792,47 @@ export async function generateChatResponse({ prevMessages, query, topicId }) {
     return { error: 'Valami hiba történt...' }
   }
 }
-export async function generateSubChatResponse({ prevMessages, query }) {
+export async function createComparison(notes) {
+
+  const { firstNote, secondNote } = notes
+  const prompt = `Az összehasonlítandó szövegek:
+    első szöveg:
+    ${firstNote}
+
+    második szöveg:
+    ${secondNote}
+    `
+
+  const systemContent = `Egy segítőkész asszisztens vagy, aki a kapott szövegeket hasonlítja össze, és az eltéréseket egy JSON-formátumú tömbben adja vissza, ahol minden eltérés külön elemként szerepel. 
+
+    A különbségek legyenek tömören és érthetően megfogalmazva, és pontosan utaljanak arra, hogy az eltérés melyik szövegből származik. Ha nincs eltérés a szövegek között, egy üres tömböt adj vissza.
+
+    Kizárólag a tömböt add vissza válaszként, minden más szöveg nélkül.
+
+    Példa a válasz struktúrájára: 
+    [
+      "Az első eltérés leírása.",
+      "A második eltérés leírása.",
+      "A harmadik eltérés leírása."
+    ]
+    `
 
   try {
-
-    const supabase = await createClient()
-
-
-
-    // const systemContent = `Te az Alteryx vezető fejlesztője és értékesítője vagy, aki egy új ügyfélnek, egy könyvelő cégnek segít megválaszolni az alteryx-szel kapcsolatos kérdéseiket.
-    //                         A válaszokhoz kapcsolódóan, ha lehetséges akkor linkeket is küldesz a válaszok mellé.`
-
-    // const systemContent = `Te az Alteryx vezető fejlesztője és értékesítője vagy. Az a célod, hogy egy új ügyfél, egy könyvelő cég kérdéseire pontos, részletes és releváns válaszokat adj. 
-    //                         - Technikai szemszögből érthető, de nem túl bonyolult magyarázatokat nyújtasz, ügyelve arra, hogy a könyvelők számára is érthető legyen.
-    //                         - Az Alteryx előnyeit, funkcionalitását és használati eseteit hangsúlyozod, különös tekintettel a könyvelési és pénzügyi folyamatok automatizálására.
-    //                         - Ha lehet, konkrét példákkal vagy forgatókönyvekkel illusztrálod a válaszaidat.
-    //                         - Küldj releváns linkeket az Alteryx dokumentációjára, blogokra vagy egyéb forrásokra, amelyek segítenek az ügyfélnek jobban megérteni a válaszaidat.`
-
-
-    // const systemContent = `Te az Alteryx vezető fejlesztője és értékesítője vagy. Az a célod, hogy egy könyvelő cégnél dolgozó fejlesztők számára pontos, részletes és releváns válaszokat adj. 
-    //                         - Magyarázataid legyenek technikailag precízek és fejlesztői szemmel informatívak, miközben a pénzügyi és könyvelési folyamatok kontextusában is érthetők.
-    //                         - Hangsúlyozd az Alteryx funkcionalitását, különös tekintettel az adatintegrációra, automatizációra és egyedi fejlesztői igények kielégítésére.
-    //                         - Ha lehetséges, adj konkrét példákat arra, hogyan lehet az Alteryx-et használni fejlesztői folyamatokban a könyvelő cég hatékonyságának növelésére.
-    //                         - A válaszokhoz kapcsolódóan adj meg releváns linkeket. A linkek mutassanak a legfrissebb, lehetőleg 2024-es Alteryx dokumentációkra, blogokra, vagy egyéb megbízható forrásokra, amelyek segítik a fejlesztőket.
-    //                         - Ösztönözd a fejlesztőket arra, hogy mélyebben ismerjék meg az Alteryx API-kat és fejlesztői eszköztárát, ha ez releváns.`
-
-    // const systemContent = `Te az Alteryx vezető fejlesztője és értékesítője vagy. Az a célod, hogy egy új ügyfélnél, egy könyvelő cégnél dolgozó fejlesztők számára pontos, részletes és releváns válaszokat adj.
-    //                         Kizárólag az alábbi linken található információk alapján:
-    //                         - https://help.alteryx.com/?lang=en
-    //                         - A válaszokhoz kapcsolódóan adj meg releváns linkeket.`
-
-    // - A válaszok rövidek és tömörek legyenek, maximum 5-7 vázlatpontban összefoglalva.
-    const prompt = `Felhasználó aktuális kérdése/kérése: "${query.content}"`
-    const systemContent = `Te az Alteryx vezető fejlesztője és értékesítője vagy. Az a célod, hogy egy új ügyfélnél, egy könyvelő cégnél dolgozó fejlesztők számára tömör, vázlatszerű válaszokat adj. 
-      A válaszaid kizárólag az alábbi linken található hivatalos Alteryx dokumentáció információira épüljenek:
-      - https://help.alteryx.com/?lang=en
-
-      Fontos:
-      - A válaszok rövidek és tömörek legyenek, vázlatpontotkban összefoglalva.
-      - Minden vázlatpont releváns legyen a kérdés szempontjából.
-      - Ha a kérdés további részletezést igényel, a felhasználó új kérdésként teheti fel.
-      - A válaszokhoz adj meg releváns linkeket a hivatalos dokumentáció aloldalaihoz. 
-      - Ne találj ki információkat; kizárólag a hivatalos dokumentációt használd.`
-    let messagesForPrompt = []
-    if (prevMessages.length < 1) {
-      messagesForPrompt = [{ role: "system", content: systemContent }, { role: "user", content: prompt }]
-    } else {
-      messagesForPrompt = [{ role: "system", content: systemContent }, ...prevMessages, { role: "user", content: prompt }]
-    }
 
     const completion = await openai.chat.completions.create({
-      messages: messagesForPrompt,
-      // model: "gpt-4o-mini",
-      model: "gpt-4o-2024-11-20",
-      // max_completion_tokens: 1000,
+      messages: [{ role: "system", content: systemContent }, { role: "user", content: prompt }],
+      model: "gpt-4o-mini",
       temperature: 0
     })
-    const { prompt_tokens, completion_tokens, total_tokens } = completion.usage
-    const { role, content } = completion.choices[0].message
 
-    return { message: { role, content }, tokens: { prompt_tokens, completion_tokens, total_tokens } }
-
-  } catch (error) {
-    console.error(error)
-    return { error: 'Valami hiba történt...' }
-  }
-}
-export async function saveSubChatMessages(values) {
-
-  const content = JSON.stringify(values)
-
-  try {
-    const supabase = await createClient()
-    // questions
-    const { error } = await supabase
-      .from('questions')
-      .insert({ topic: "alteryx", content })
-
-    if (error) {
-      console.log(error)
-      return { error: `code: ${error.code} / message: ${error.message}` }
-    }
-
-    return { message: "A beszélgetés elmentve!" }
-
+    const { content } = completion.choices[0].message
+    console.log(content);
+    return { response: content }
 
   } catch (error) {
     console.error(error)
     return { error: 'Valami hiba történt...' }
   }
+
 
 }
