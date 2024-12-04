@@ -14,7 +14,7 @@ const queryClient = new QueryClient()
 
 async function UpdateNoteEditorFunction({ topicSlug, noteSlug }) {
 
-  await queryClient.fetchQuery({
+  await queryClient.prefetchQuery({
     queryKey: ['note', topicSlug, noteSlug],
     queryFn: () => getNote({ topicSlug, noteSlug }),
   })

@@ -14,7 +14,7 @@ import LoadingNoteList from "@/components/skeletons/loading-note-list";
 const queryClient = new QueryClient()
 
 async function Notes({ topicSlug }) {
-  await queryClient.fetchQuery({
+  await queryClient.prefetchQuery({
     queryKey: ['notes', topicSlug],
     queryFn: () => getNotes(topicSlug),
   });

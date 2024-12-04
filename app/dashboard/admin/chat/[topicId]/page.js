@@ -25,7 +25,7 @@ async function ChatContainerFunction({ topicId }) {
   )
 }
 async function ChatPageHeaderFunction({ topicId }) {
-  await queryClient.fetchQuery({
+  await queryClient.prefetchQuery({
     queryKey: ['chat', 'title', topicId],
     queryFn: () => getTopic(topicId),
   });
