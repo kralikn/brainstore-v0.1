@@ -55,6 +55,7 @@ export default function AlteryxChatPage() {
   })
 
   const onSubmit = () => {
+    setDiscrepancies([])
     mutate({ firstNote, secondNote })
   }
 
