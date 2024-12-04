@@ -803,9 +803,9 @@ export async function createComparison(notes) {
     ${secondNote}
     `
 
-  const systemContent = `Egy segítőkész asszisztens vagy, aki a kapott szövegeket hasonlítja össze, és az eltéréseket egy JSON-formátumú tömbben adja vissza, ahol minden eltérés külön elemként szerepel. 
+  const systemContent = `Egy segítőkész asszisztens vagy, aki a kapott szövegeket hasonlítja össze, és az összes eltérést egy JSON-formátumú tömbben adja vissza, ahol minden eltérés külön elemként szerepel. 
 
-    A különbségek legyenek tömören és érthetően megfogalmazva, és pontosan utaljanak arra, hogy az eltérés melyik szövegből származik. Ha nincs eltérés a szövegek között, egy üres tömböt adj vissza.
+    A különbségek legyenek tömören és érthetően megfogalmazva, és pontosan utaljanak arra, hogy az eltérés melyik szövegből származik. Kérlek, az eltérések típusát (pl. hiányzó szöveg, eltérő tartalom) is említsd. Ha nincs eltérés a szövegek között, egy üres tömböt adj vissza.
 
     Kizárólag a tömböt add vissza válaszként, minden más szöveg nélkül.
 
