@@ -82,7 +82,7 @@ export default function AlteryxChatPage() {
             value={firstNote}
             onChange={e => setFirstNote(e.target.value)}
             id="first-note"
-            rows={12}
+            rows={14}
           />
         </div>
         <div className='col-span-6'>
@@ -91,7 +91,7 @@ export default function AlteryxChatPage() {
             value={secondNote}
             onChange={e => setSecondNote(e.target.value)}
             id="second-note"
-            rows={12}
+            rows={14}
           />
         </div>
       </div>
