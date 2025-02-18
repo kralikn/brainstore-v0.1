@@ -82,7 +82,7 @@ export default function AlteryxChatPage() {
             value={firstNote}
             onChange={e => setFirstNote(e.target.value)}
             id="first-note"
-            rows={15}
+            rows={12}
           />
         </div>
         <div className='col-span-6'>
@@ -91,7 +91,7 @@ export default function AlteryxChatPage() {
             value={secondNote}
             onChange={e => setSecondNote(e.target.value)}
             id="second-note"
-            rows={15}
+            rows={12}
           />
         </div>
       </div>
@@ -109,7 +109,7 @@ export default function AlteryxChatPage() {
           <Trash2 />Törlés
         </Button>
       </div>
-      {discrepancies && <div className="mt-4">
+      {discrepancies && <div className="mt-2">
         <Card className="">
           <CardHeader className="">
             <CardTitle className="text-xl">
