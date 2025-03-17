@@ -741,7 +741,7 @@ export async function generateChatResponse({ prevMessages, query, topicId }) {
 
     let { data, error } = await supabase
       .rpc('match_documents_by_topic_id', {
-        match_count: 3,
+        match_count: 6,
         p_topic_id: topicId,
         query_embedding: queryEmbedding
       })
